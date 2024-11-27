@@ -138,7 +138,7 @@ class Home1 extends StatelessWidget {
                             Column(
                               children: [
                                 SizedBox(
-                                  height: 200,
+                                  height: 180,
                                   child: ListView(
                                     scrollDirection: Axis.horizontal,
                                     children: [
@@ -152,7 +152,7 @@ class Home1 extends StatelessWidget {
                                               BorderRadius.circular(12.0),
                                           child: Image.asset(
                                             'assets/images/promo2.jpg',
-                                            width: 330,
+                                            width: 280,
                                             height: 173,
                                             fit: BoxFit.cover,
                                           ),
@@ -169,7 +169,7 @@ class Home1 extends StatelessWidget {
                                               BorderRadius.circular(12.0),
                                           child: Image.asset(
                                             'assets/images/promo2.jpg',
-                                            width: 330,
+                                            width: 280,
                                             height: 173,
                                             fit: BoxFit.cover,
                                           ),
@@ -287,7 +287,7 @@ class Home1 extends StatelessWidget {
                                 children: [
                                   Center(
                                     child: SizedBox(
-                                      width: 320,
+                                      width: 300,
                                       child: VoiceOverProfile(
                                         name: 'Anes Mahammedi',
                                         photoUrl: 'assets/images/voix.jpg',
@@ -296,10 +296,10 @@ class Home1 extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(width: 20),
+                                  SizedBox(width: 10),
                                   Center(
                                     child: SizedBox(
-                                      width: 320,
+                                      width: 300,
                                       child: VoiceOverProfile(
                                         name: 'Mounir Hadjadji',
                                         photoUrl: 'assets/images/voix.jpg',
@@ -308,10 +308,10 @@ class Home1 extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(width: 20),
+                                  SizedBox(width: 10),
                                   Center(
                                     child: SizedBox(
-                                      width: 320,
+                                      width: 300,
                                       child: VoiceOverProfile(
                                         name: 'Abdelkader Derbale',
                                         photoUrl: 'assets/images/voix.jpg',
@@ -323,7 +323,7 @@ class Home1 extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            SizedBox(height: 20),
+                            SizedBox(height: 10),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [

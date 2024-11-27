@@ -36,7 +36,7 @@ class VoiceOverProfile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            width: 350,
+            width: 320,
             height: 200,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),

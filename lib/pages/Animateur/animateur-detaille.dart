@@ -96,8 +96,7 @@ class _AnimateurDetailleState extends State<AnimateurDetaille> {
                                       icon: Icon(Icons.arrow_back,
                                           color: Colors.black),
                                       onPressed: () {
-                                        Navigator.pushReplacementNamed(
-                                            context, "/animateur");
+                                        Navigator.pop(context);
                                       },
                                     ),
                                     IconButton(

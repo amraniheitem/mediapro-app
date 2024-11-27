@@ -22,7 +22,7 @@ class _TeamState extends State<Team> {
             end: Alignment.bottomRight,
           ).createShader(bounds),
           child: Text(
-            'MediaPro team',
+            'MediaPro Team',
             style: GoogleFonts.lobster(
               fontSize: 30,
               fontWeight: FontWeight.bold,
@@ -36,11 +36,12 @@ class _TeamState extends State<Team> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Dropdown pour sélectionner le domaine
             Text(
               "Sélectionnez un domaine:",
-              style:
-                  GoogleFonts.roboto(fontSize: 18, fontWeight: FontWeight.bold),
+              style: GoogleFonts.roboto(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 10),
             DropdownButton<String>(
@@ -60,7 +61,6 @@ class _TeamState extends State<Team> {
               },
             ),
             const SizedBox(height: 20),
-
             if (selectedDomain != null)
               Expanded(
                 child: SingleChildScrollView(
@@ -74,69 +74,89 @@ class _TeamState extends State<Team> {
   }
 }
 
-// Widget pour afficher le formulaire spécifique selon le domaine sélectionné
 class DomainForm extends StatelessWidget {
   final String domain;
 
-  const DomainForm({required this.domain});
+  DomainForm({required this.domain});
+
+  final _formKey = GlobalKey<FormState>(); // Clé pour le formulaire
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CommonFields(), // Coordonnées communes pour tous les domaines
-        const SizedBox(height: 20),
-        if (domain == 'Animateur') AnimatorForm(),
-        if (domain == 'Voix Off') VoiceOffForm(),
-        if (domain == 'Formateur') TrainerForm(),
-        if (domain == 'Produit en Vente') ProductForm(),
-      ],
+    return Form(
+      key: _formKey, // Associer la clé au formulaire
+      child: Column(
+        children: [
+          CommonFields(),
+          const SizedBox(height: 20),
+          if (domain == 'Animateur') AnimatorForm(),
+          if (domain == 'Voix Off') VoiceOffForm(),
+          if (domain == 'Formateur') TrainerForm(),
+          if (domain == 'Produit en Vente') ProductForm(),
+          const SizedBox(height: 20),
+          SubmitButton(formKey: _formKey), // Passer la clé au bouton
+        ],
+      ),
     );
   }
 }
 
-// Champs communs pour tous les domaines (Nom, Prénom, etc.)
 class CommonFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TextField(
+        TextFormField(
           decoration: const InputDecoration(labelText: 'Nom'),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Veuillez entrer un nom';
+            }
+            return null;
+          },
         ),
-        TextField(
+        TextFormField(
           decoration: const InputDecoration(labelText: 'Prénom'),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Veuillez entrer un prénom';
+            }
+            return null;
+          },
         ),
-        TextField(
+        TextFormField(
           decoration: const InputDecoration(labelText: 'Wilaya'),
         ),
-        TextField(
+        TextFormField(
           decoration: const InputDecoration(labelText: 'Adresse'),
         ),
-        TextField(
+        TextFormField(
           decoration: const InputDecoration(labelText: 'Numéro de téléphone'),
           keyboardType: TextInputType.phone,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Veuillez entrer un numéro de téléphone';
+            }
+            return null;
+          },
         ),
       ],
     );
   }
 }
 
-// Formulaire spécifique pour Animateur
 class AnimatorForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(
+        TextFormField(
           decoration: const InputDecoration(labelText: 'Années d\'expérience'),
         ),
-        TextField(
+        TextFormField(
           decoration: const InputDecoration(labelText: 'Type de Programme'),
         ),
-        const SizedBox(height: 20),
-        SubmitButton(),
       ],
     );
   }
@@ -147,14 +167,12 @@ class VoiceOffForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(
+        TextFormField(
           decoration: const InputDecoration(labelText: 'Type de voix'),
         ),
-        TextField(
+        TextFormField(
           decoration: const InputDecoration(labelText: 'Langues maîtrisées'),
         ),
-        const SizedBox(height: 20),
-        SubmitButton(),
       ],
     );
   }
@@ -165,57 +183,69 @@ class TrainerForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(
+        TextFormField(
           decoration: const InputDecoration(labelText: 'Domaine de formation'),
         ),
-        TextField(
+        TextFormField(
           decoration: const InputDecoration(labelText: 'Expérience'),
         ),
-        const SizedBox(height: 20),
-        SubmitButton(),
       ],
     );
   }
 }
 
-// Formulaire spécifique pour Produit en Vente
 class ProductForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(
+        TextFormField(
           decoration: const InputDecoration(labelText: 'Nom du produit'),
         ),
-        TextField(
+        TextFormField(
           decoration: const InputDecoration(labelText: 'Description'),
         ),
-        TextField(
+        TextFormField(
           decoration: const InputDecoration(labelText: 'Quantité du produit'),
           keyboardType: TextInputType.number,
         ),
-        const SizedBox(height: 20),
-        SubmitButton(),
       ],
     );
   }
 }
 
-// Bouton de soumission
 class SubmitButton extends StatelessWidget {
+  final GlobalKey<FormState> formKey;
+
+  const SubmitButton({required this.formKey, Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        // Action lors de la soumission
+        if (formKey.currentState?.validate() ?? false) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Message envoyé avec succès')),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Veuillez corriger les erreurs')),
+          );
+        }
       },
-      style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+      child: const Text(
+        "Sauvegardez",
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
         ),
-        backgroundColor: Colors.blueAccent,
       ),
-      child: const Text("Soumettre"),
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+        backgroundColor: const Color(0xFFB993D6),
+        textStyle: const TextStyle(fontSize: 18),
+      ),
     );
   }
 }
